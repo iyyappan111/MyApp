@@ -9,12 +9,8 @@ import tv from '../../asset/images/tv.jpg';
 import watches from '../../asset/images/watches.jpg';
 const Images = {
     sample1, sample2, sample3, sample5, mobile,
-
     headPhone,
     tv,
     watches
-
-
 };
-
 export default Images;

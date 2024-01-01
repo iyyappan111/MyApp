@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Home: React.FC<Props> = ({ navigation }) => {
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
   const handleWelcomePress = () => {
     // setLoading(true)
     // setTimeout(() => {
@@ -15,11 +15,11 @@ const Home: React.FC<Props> = ({ navigation }) => {
     //   navigation.navigate('Register')
     // }, 2000)
   };
-useEffect(() => {
-  setTimeout(() => {
-setLoading(false)
-  },5000)
-})
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setLoading(false)
+  //   }, 5000)
+  // })
   useEffect(() => {
     const months = ['Jan', 'March', 'April', 'June'];
     months.splice(1, 0, 'Feb');
@@ -32,8 +32,34 @@ setLoading(false)
     // Expected output: Array ["Jan", "Feb", "March", "April", "May"]
 
   })
+  const onLoadStart = () => {
+    console.log('Image loading started');
+  };
+  
+  const onProgress = (e: any) => {
+    console.log('Image loading progress:', e.nativeEvent);
+  };
+  
+  const onLoad = (e: any) => {
+    console.log('Image loaded successfully:', e.nativeEvent);
+  };
+  
+  const onLoadEnd = () => {
+    console.log('Image loading completed');
+  };
+  
+  const onError = (error: any) => {
+    console.log('Image loading error:', error.nativeEvent);
+  };
+  
   return (
-    <HomeScreen handleWelcomePress={handleWelcomePress}
+    <HomeScreen
+      handleWelcomePress={handleWelcomePress}
+      onLoadStart={onLoadStart}
+      onProgress={onProgress}
+      onLoad={onLoad}
+      onLoadEnd={onLoadEnd}
+      onError ={onError}
       loading={loading}
     />
   );

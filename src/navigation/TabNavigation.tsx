@@ -33,8 +33,10 @@ const TabNavigation = () => {
         options={({ navigation }) => ({
           tabBarLabel :"Home",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={colors.black} />
+            <Ionicons name="home-outline" size={size} color={colors.black}
+             />
           ),
+          headerShown:false
         })}
       />
       <Tab.Screen

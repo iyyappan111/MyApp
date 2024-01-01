@@ -2,10 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Dimensions, FlatList, Image, ListRenderItemInfo, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign'
 import Carousel from 'react-native-snap-carousel';
 import Images from '../../constants/images';
 import { colors } from '../../constants/colors';
 import MyCarousel from '../../components/Carousel';
+import FastImage, { FastImageProps } from 'react-native-fast-image';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import CategoriesHeader from '../../components/categoriesHeader';
+import HomeHeader from '../../components/homeHeader';
+import CustomTextInput from '../../components/customInputComponents';
+import Icons from '../../constants/icons';
 
 export const SLIDER_WIDTH = wp('100%');
 export const ITEM_WIDTH = wp('70%');
@@ -14,20 +22,20 @@ export const screenHeight = Dimensions.get('window').height;
 interface Props {
   handleWelcomePress: () => void;
   loading: boolean;
+  onLoadStart: () => void;
+  onProgress: (val: any) => void;
+  onLoad: (val: any) => void;
+  onLoadEnd: () => void;
+  onError: (e: any) => void;
 }
 
-const HomeScreen: React.FC<Props> = ({ handleWelcomePress, loading }) => {
+const HomeScreen: React.FC<Props> = ({ handleWelcomePress, loading, onLoadStart, onProgress, onLoad, onLoadEnd, onError }) => {
   const [index, setIndex] = useState(0);
   const isCarousel = React.useRef(null);
-  useEffect(() => {
-    console.log("screenWidth", screenWidth / 100)
-    console.log("screenHeight", screenHeight)
-  }, [])
   interface CarouselItem {
     id: number;
     imgUrl: string;
   }
-
   const data: CarouselItem[] = [
     {
       id: 1,
@@ -52,7 +60,7 @@ const HomeScreen: React.FC<Props> = ({ handleWelcomePress, loading }) => {
     {
       id: 1,
       title: "Mobile",
-      imgUrl: Images.mobile,
+      imgUrl: 'gift',
     },
     {
       id: 2,
@@ -76,21 +84,149 @@ const HomeScreen: React.FC<Props> = ({ handleWelcomePress, loading }) => {
     },
   ];
 
+
+  const offerDeals = [
+    {
+      id: 1,
+      imgUrl: Images.mobile,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+    {
+      id: 2,
+      imgUrl: Images.watches,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+    {
+      id: 3,
+      imgUrl: Images.tv,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+    {
+      id: 4,
+      imgUrl: Images.headPhone,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+    {
+      id: 5,
+      imgUrl: Images.mobile,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+    {
+      id: 1,
+      imgUrl: Images.mobile,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+    {
+      id: 2,
+      imgUrl: Images.watches,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+    {
+      id: 3,
+      imgUrl: Images.tv,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+    {
+      id: 4,
+      imgUrl: Images.headPhone,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+    {
+      id: 5,
+      imgUrl: Images.mobile,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+    {
+      id: 1,
+      imgUrl: Images.mobile,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+    {
+      id: 2,
+      imgUrl: Images.watches,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+    {
+      id: 3,
+      imgUrl: Images.tv,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+    {
+      id: 4,
+      imgUrl: Images.headPhone,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+    {
+      id: 5,
+      imgUrl: Images.mobile,
+      offer: '10% off',
+      dealTextColor: colors.red,
+      dealText: 'Deal of the Day'
+    },
+  ];
+
+  useEffect(() => {
+  }, [])
+  const numbers = [1, 2, 3, 4, 5];
+  const sum = numbers.reduce((accumulator, currentValue) => {
+    console.log()
+    return accumulator + currentValue;
+  }, 0);
+
+  const MIN_HEIGHT = hp("20%");
+  const MAX_HEIGHT = hp("20%");
+
   const renderItem = ({ item }: any) => {
     return (
-      <View style={{ alignItems: 'center', justifyContent: 'center', width: wp("100%"), height: hp('25%') }}>
+      <View style={{ alignItems: 'center', justifyContent: 'center', width: screenWidth, maxHeight: hp("30%") }}>
         <Image
-          source={item.imgUrl}
           style={{
-            width: screenWidth,
-            height: hp('25%'),
-            resizeMode:'contain'
+            width: screenWidth, // Set a fixed width for the frame
+            // minHeight: hp('25%'), // Set a fixed height for the frame
+            borderRadius: 10,
+          }}
+          resizeMode='contain' // Use 'contain' to fit the entire image within the specified dimensions
+          source={item.imgUrl}
+          onLoadStart={onLoadStart}
+          onProgress={(e) => onProgress(e)}
+          onLoad={(e) => onLoad(e)}
+          onLoadEnd={onLoadEnd}
+          onError={() => {
+            console.error('Image loading error');
           }}
         />
+
       </View>
     );
   };
-
 
   const SkeletonItem = () => (
     <View
@@ -113,99 +249,142 @@ const HomeScreen: React.FC<Props> = ({ handleWelcomePress, loading }) => {
   const listItem = ({ item }: any) => (
     <TouchableOpacity
       style={{
-        borderWidth: 1,
-        borderColor: 'rgba(0, 0, 0, 0.2)',
+        width: wp("15%"),
+        height: hp("7%"),
+        backgroundColor: colors.goldenrod,
+        justifyContent: 'center',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        width: wp("30%"),
-        height: hp("15%"),
-        backgroundColor: '#fff',
-        borderRadius: 8,
-        margin: 6,
-
-      }}
-    >
-      <Image
-        source={item.imgUrl}
-        style={{ width: '100%', height: '100%', borderRadius: 8 }}
-        resizeMode="cover"
-      />
-      <View style={{ paddingVertical: hp("0.5%"), justifyContent: 'center', alignItems: 'center' }}>
-        <Text>
-          {item.title}
-        </Text>
-      </View>
+        borderRadius: 10,
+        marginHorizontal: wp("2.5%")
+      }}>
+      <AntDesign name='gift' color={'green'} size={30} />
     </TouchableOpacity>
   );
-  const SkeletonCarouselItem = () => (
-    <View
-      style={{
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1,
-        backgroundColor: '#f0f0f0', // Adjust as needed
-        borderColor: 'rgba(0, 0, 0, 0.2)',
-        width: wp("100%"),
-        height: hp('25%'),
-      }}
-    >
-      <ActivityIndicator size="small" color="#999" />
-    </View>
-  );
+  const productItem = ({ item, index }: any) => {
+    return (
+      <TouchableOpacity
+        style={{
+          borderWidth: 1,
+          borderColor: 'rgba(0, 0, 0, 0.2)',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: wp("42%"),
+          height: hp("30%"),
+          backgroundColor: '#fff',
+          borderRadius: 8,
+          margin: wp("4%"),
 
+        }}
+      >
+
+        <FastImage
+          style={{ width: '100%', height: '100%', borderRadius: 8 }}
+          source={item.imgUrl}
+          onLoadStart={onLoadStart}
+          onProgress={(e) => onProgress(e)}
+          onLoad={(e) => onLoad(e)}
+          onLoadEnd={onLoadEnd}
+          onError={() => {
+            console.error('Image loading error');
+          }}
+        />
+        <View style={{ justifyContent: 'space-between', flexDirection: 'row', padding: wp("2%") }}>
+          <Text style={{ backgroundColor: item.dealTextColor }}>
+            {item.offer}
+          </Text>
+          <Text style={{ paddingHorizontal: wp("1%") }}>
+            {item.dealText}
+          </Text>
+        </View>
+
+      </TouchableOpacity>
+    );
+  };
+
+
+  const onPressSeeMore = () => {
+
+  }
+  const [search, setSearch] = useState<string>()
   return (
     <View style={styles.container}>
-
-
-      <View style={styles.headerContainer}>
-        <Feather name={'menu'} size={20} style={styles.icon} />
-        <View style={styles.searchCartContainer}>
-          <Feather name={'search'} size={20} style={styles.icon} />
-          <Feather name={'shopping-cart'} size={20} style={styles.icon} />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <HomeHeader
+          mapIconNameIconSize={20}
+          searchCartIconSize={20}
+          shoppingCartIconColor={"black"}
+          notificationsIconColor={"black"}
+          mapIconName={"map-pin"}
+          shoppingCartIconName={"shopping-cart"}
+          notificationsIconName={"notifications-none"}
+          locationText={"Meenambakkam"}
+          containerStyle ={null}
+        />
+        <View style={{ justifyContent: 'center', alignItems: 'center', minHeight: hp("11%") }}>
+          <CustomTextInput
+            placeholder="Search"
+            value={search}
+            multiline={false}
+            maxLength={256}
+            keyboardType="default"
+            returnKeyType="done"
+            secureTextEntry={false}
+            onFocus={() => {
+              console.log('TextInput focused');
+            }}
+            placeholderTextColor={colors.black}
+            rightIcon={Icons.search}
+            leftIcon={Icons.close}
+            inputStyle={{ width: wp('90%') }}
+            onChangeText={(text) => {
+              setSearch(text)
+            }}
+          />
         </View>
-      </View>
-
-
-
-      <View style={{ width: wp("100%"), height: hp('25%'), justifyContent: 'center', alignItems: 'center' }}>
         <MyCarousel
           data={data}
           renderItem={renderItem}
           autoplay={true}
-          autoplayInterval={1000}
+          autoplayInterval={2000}
           loop={true}
-          style={{ height: 200 }}
         />
 
-      </View>
-      <View style={{ height: hp("20%"), justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <View style={{ width: wp("100%"), justifyContent: 'center', alignItems: 'flex-start', paddingVertical: hp("2%"), paddingLeft: 3 }}>
-          <Text>
-            Categories
-          </Text>
-        </View>
-        <View style={{ height: hp("20%"), justifyContent: 'flex-start', alignItems: 'center' }}>
-          <FlatList
-            data={loading ? new Array(3).fill(null) : list}
-            keyExtractor={(item, index) => (item ? item.id.toString() : `skeleton-${index}`)}
-            renderItem={loading ? SkeletonItem : listItem}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingVertical: 0 }}
-          />
+        <View style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <CategoriesHeader
+            text={'categores'}
+            seeMoreText={'see more '}
+            onPressSeeMore={onPressSeeMore} />
+
+          <View style={{ justifyContent: 'space-between', alignItems: 'center', width: screenWidth }}>
+            <FlatList
+              data={loading ? new Array(3).fill(null) : list}
+              keyExtractor={(item, index) => (item ? item.id.toString() : `skeleton-${index}`)}
+              renderItem={loading ? SkeletonItem : listItem}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ paddingVertical: 0 }}
+            />
+          </View>
+          <View style={{ justifyContent: 'center', alignItems: 'center', width: wp("100%") }}>
+            <FlatList
+              data={offerDeals}
+              renderItem={productItem}
+              keyExtractor={(item, index) => index.toString()}
+              numColumns={2}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingVertical: 0 }}
+            />
+          </View>
         </View>
 
-      </View>
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    flex: 1, backgroundColor: 'white'
   },
   headerContainer: {
     flexDirection: 'row',

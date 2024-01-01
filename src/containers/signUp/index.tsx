@@ -15,7 +15,7 @@ export default function Register(Props: any) {
     const [confirmPassword, setConfirmPassword] = useState('Aa@95977679#');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
-    const baseURL = "http://localhost:9000/auth/signUp";
+    const baseURL = "http://localhost:5000/auth/signUp";
 
     const onChangefirstName = (val: React.SetStateAction<string>) => {
         setFirstName(val);

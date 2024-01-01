@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleProp, ViewStyle, ListRenderItem } from 'react-native';
+import { View, Text, StyleProp, ViewStyle, ListRenderItem, Dimensions } from 'react-native';
 import Carousel, {
   CarouselProps as RNSCarouselProps,
-  ParallaxImage,
-  AdditionalParallaxProps,
   Pagination,
 } from 'react-native-snap-carousel';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { colors } from '../../constants/colors';
-
+export const screenWidth = Dimensions.get('window').width;
+export const screenHeight = Dimensions.get('window').height;
 interface CarouselItem {
   id: number;
   imgUrl: string;
@@ -26,8 +25,8 @@ const MyCarousel: React.FC<MyCarouselProps> = ({
   autoplay = false,
   autoplayInterval = 1000,
   loop = false,
-  sliderWidth = wp('100%'),
-  itemWidth = wp('100%'),
+  sliderWidth = screenWidth,
+  itemWidth = screenWidth,
   style,
 }) => {
   const [index, setIndex] = useState(0);
@@ -48,24 +47,6 @@ useEffect(() => {
         loop={loop}
         style={style}
         onSnapToItem={(currentIndex) => setIndex(currentIndex)}
-      />
-      <Pagination
-        dotsLength={data.length}
-        activeDotIndex={index}
-        carouselRef={(isCarousel as any)}
-        dotStyle={{
-          width: 10,
-          height: 10,
-          borderRadius: 5,
-          backgroundColor: colors.green,
-          position:'relative',
-        }}
-        tappableDots={true}
-        inactiveDotStyle={{
-          backgroundColor: colors.black,
-        }}
-        inactiveDotOpacity={0.4}
-        inactiveDotScale={0.6}
       />
     </View>
   );
