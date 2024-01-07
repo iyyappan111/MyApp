@@ -1,33 +1,33 @@
 
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { colors } from '../../constants/colors';
 
 interface CategoriesHeaderProps {
   containerStyle?: object;
   text: string;
-  textColor?: string;
-  seeMoreText: string;
-  seeMoreTextColor?: string;
+  categoresTextStyle? :TextStyle
+  seeMoreTextStyle?:TextStyle
+  seeMoreText : string
   onPressSeeMore: () => void;
 }
 
 const CategoriesHeader: React.FC<CategoriesHeaderProps> = ({
   containerStyle,
   text,
-  textColor,
+  categoresTextStyle,
+  seeMoreTextStyle,
   seeMoreText,
-  seeMoreTextColor,
   onPressSeeMore,
 }) => {
   return (
     <View style={[styles.containerStyle, containerStyle]}>
-      <Text style={{ color:colors.black,fontSize:hp("2%") ,fontWeight:'bold'}}>
+      <Text style={[styles.categoresTextStyle,categoresTextStyle]}>
         {text}
       </Text>
       <TouchableOpacity onPress={onPressSeeMore}>
-        <Text style={{ color: seeMoreTextColor,fontSize:hp("1.5%") }}>
+        <Text style={[styles.seeMoreTextStyle,seeMoreTextStyle]}>
           {seeMoreText}
         </Text>
       </TouchableOpacity>
@@ -46,4 +46,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp("2%"),
     flexDirection: 'row',
   },
+  categoresTextStyle : {
+    color:colors.black,fontFamily:'Roboto-Light',textAlign:'center'
+  },
+  seeMoreTextStyle : {
+    color:colors.black,fontFamily:'Roboto-Light',fontSize:hp("1.5%"),textAlign:'center'
+  }
+
 });

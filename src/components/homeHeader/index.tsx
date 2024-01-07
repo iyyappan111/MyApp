@@ -8,83 +8,46 @@ import {
   Text,
   TextStyle,
 } from "react-native";
-import Feather from "react-native-vector-icons/Feather";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-
+} from "react-native-responsive-screen"
 export const screenWidth = Dimensions.get("window").width;
 export const screenHeight = Dimensions.get("window").height;
-
-interface IconProps {
-  name: string;
-  size: number;
-  color?: string;
-}
-
-const FeatherIcon: React.FC<IconProps> = ({ name, size, color }) => (
-  <Feather name={name} size={size} style={[styles.icon, { color }]} />
-);
-
-const MaterialIcon: React.FC<IconProps> = ({ name, size, color }) => (
-  <MaterialIcons name={name} size={size} style={[styles.icon, { color }]} />
-);
-
 interface HomeHeaderProps {
   containerStyle?: StyleProp<ViewStyle>;
-  mapIconNameIconSize?: number;
-  searchCartIconSize?: number;
   locationText: string;
-  shoppingCartIconColor?: string;
-  notificationsIconColor?: string;
   locationTextStyle?: StyleProp<TextStyle>;
-  mapIconName?: string;
-  shoppingCartIconName?: string;
-  notificationsIconName?: string;
+  locationContainer? : ViewStyle
+  cart_NotificationInnerContainer? : ViewStyle
+  leftIconComponents : any
+  rightCartIconComponents:any
+  rightNotificationIconComponents : any
 }
 
 const HomeHeader: React.FC<HomeHeaderProps> = ({
   containerStyle,
-  mapIconNameIconSize = 20,
-  searchCartIconSize = 20,
   locationText = "chennai",
-  shoppingCartIconColor = "black",
-  notificationsIconColor = "black",
   locationTextStyle,
-  mapIconName = "map-pin",
-  shoppingCartIconName = "shopping-cart",
-  notificationsIconName = "notifications-none",
+  locationContainer,
+  cart_NotificationInnerContainer,
+  leftIconComponents,
+  rightCartIconComponents,
+  rightNotificationIconComponents
 }) => {
   return (
     <View style={[styles.headerContainer, containerStyle]}>
       <View
-        style={{
-          flexDirection: "row",
-          minWidth: 0,
-          maxWidth: wp("78%"),
-          alignItems: "center",
-          justifyContent: "space-between",
-         
-        }}
+        style={[styles.locationContainer,locationContainer]}
       >
-        <FeatherIcon name={mapIconName} size={mapIconNameIconSize} color="black" />
+        {leftIconComponents}
         <Text style={[styles.locationText, locationTextStyle]}>
           {locationText}
         </Text>
       </View>
-      <View style={styles.searchCartContainer}>
-        <FeatherIcon
-          name={shoppingCartIconName}
-          size={searchCartIconSize}
-          color={shoppingCartIconColor}
-        />
-        <MaterialIcon
-          name={notificationsIconName}
-          size={searchCartIconSize}
-          color={notificationsIconColor}
-        />
+      <View style={[styles.cart_NotificationInnerContainer,cart_NotificationInnerContainer]}>
+        {rightCartIconComponents}
+        {rightNotificationIconComponents}
       </View>
     </View>
   );
@@ -101,7 +64,7 @@ const styles = StyleSheet.create({
   icon: {
     marginHorizontal: wp("2%"),
   },
-  searchCartContainer: {
+  cart_NotificationInnerContainer: {
     justifyContent: "space-between",
     width: wp("20%"),
     height: screenHeight / 15,
@@ -113,6 +76,13 @@ const styles = StyleSheet.create({
     overflow:"hidden",
     fontFamily:"Roboto-Black"
   },
+  locationContainer : {
+    flexDirection: "row",
+    minWidth: 0,
+    maxWidth: wp("78%"),
+    alignItems: "center",
+    justifyContent: "space-between",
+  }
 });
 
 export default HomeHeader;

@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Home: React.FC<Props> = ({ navigation }) => {
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true)
   const handleWelcomePress = () => {
     // setLoading(true)
     // setTimeout(() => {
@@ -30,7 +30,9 @@ const Home: React.FC<Props> = ({ navigation }) => {
     // Replaces 1 element at index 4
     console.log(months);
     // Expected output: Array ["Jan", "Feb", "March", "April", "May"]
-
+setTimeout(()=> {
+  setLoading(false)
+},2000)
   })
   const onLoadStart = () => {
     console.log('Image loading started');

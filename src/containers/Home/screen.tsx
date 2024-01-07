@@ -14,7 +14,7 @@ import CategoriesHeader from '../../components/categoriesHeader';
 import HomeHeader from '../../components/homeHeader';
 import CustomTextInput from '../../components/customInputComponents';
 import Icons from '../../constants/icons';
-
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 export const SLIDER_WIDTH = wp('100%');
 export const ITEM_WIDTH = wp('70%');
 export const screenWidth = Dimensions.get('window').width;
@@ -60,27 +60,33 @@ const HomeScreen: React.FC<Props> = ({ handleWelcomePress, loading, onLoadStart,
     {
       id: 1,
       title: "Mobile",
-      imgUrl: 'gift',
+      imgUrl: Icons.mobileIcon,
+      backgroundColor:colors.skyblue
     },
     {
       id: 2,
       title: "Appliance",
-      imgUrl: Images.watches,
+      imgUrl: Icons.headPhone,
+      backgroundColor:colors.skyblue
     },
     {
       id: 3,
       title: "HeadPhone",
-      imgUrl: Images.headPhone,
+      imgUrl: Icons.watch,
+      backgroundColor:colors.skyblue
     },
+    
     {
       id: 4,
       title: "TV",
-      imgUrl: Images.tv,
+      imgUrl:Icons.sunglass,
+      backgroundColor:colors.skyblue
     },
     {
       id: 5,
       title: "Watches",
-      imgUrl: Images.watches
+      imgUrl: Icons.laptopIcon,
+      backgroundColor:colors.skyblue
     },
   ];
 
@@ -251,13 +257,14 @@ const HomeScreen: React.FC<Props> = ({ handleWelcomePress, loading, onLoadStart,
       style={{
         width: wp("15%"),
         height: hp("7%"),
-        backgroundColor: colors.goldenrod,
+        //backgroundColor: colors.goldenrod,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
         marginHorizontal: wp("2.5%")
       }}>
-      <AntDesign name='gift' color={'green'} size={30} />
+     <Image source={item.imgUrl} style={{resizeMode:'contain',  width: wp("15%"),
+        height: hp("7%"),}}/>
     </TouchableOpacity>
   );
   const productItem = ({ item, index }: any) => {
@@ -289,10 +296,10 @@ const HomeScreen: React.FC<Props> = ({ handleWelcomePress, loading, onLoadStart,
           }}
         />
         <View style={{ justifyContent: 'space-between', flexDirection: 'row', padding: wp("2%") }}>
-          <Text style={{ backgroundColor: item.dealTextColor }}>
+          <Text style={{ backgroundColor: item.dealTextColor,fontFamily:'Roboto-Light' }}>
             {item.offer}
           </Text>
-          <Text style={{ paddingHorizontal: wp("1%") }}>
+          <Text style={{ paddingHorizontal: wp("1%"),fontFamily:'Roboto-Light' }}>
             {item.dealText}
           </Text>
         </View>
@@ -310,15 +317,11 @@ const HomeScreen: React.FC<Props> = ({ handleWelcomePress, loading, onLoadStart,
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <HomeHeader
-          mapIconNameIconSize={20}
-          searchCartIconSize={20}
-          shoppingCartIconColor={"black"}
-          notificationsIconColor={"black"}
-          mapIconName={"map-pin"}
-          shoppingCartIconName={"shopping-cart"}
-          notificationsIconName={"notifications-none"}
           locationText={"Meenambakkam"}
-          containerStyle ={null}
+          containerStyle={null}
+          leftIconComponents={<Feather name={'map-pin'} size={20} style={[styles._icon, { color: 'black' }]} />}
+          rightCartIconComponents={<Feather name={'shopping-cart'} size={20} style={[styles._icon, { color: 'black' }]} />}
+          rightNotificationIconComponents={<MaterialIcons name={'notifications-none'} size={20} style={[styles._icon, { color: 'black' }]} />}
         />
         <View style={{ justifyContent: 'center', alignItems: 'center', minHeight: hp("11%") }}>
           <CustomTextInput
@@ -351,11 +354,11 @@ const HomeScreen: React.FC<Props> = ({ handleWelcomePress, loading, onLoadStart,
 
         <View style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <CategoriesHeader
-            text={'categores'}
-            seeMoreText={'see more '}
+            text={'Categores'}
+            seeMoreText={'see all '}
             onPressSeeMore={onPressSeeMore} />
 
-          <View style={{ justifyContent: 'space-between', alignItems: 'center', width: screenWidth }}>
+          <View style={{ justifyContent: 'space-between', alignItems: 'center', width: screenWidth}}>
             <FlatList
               data={loading ? new Array(3).fill(null) : list}
               keyExtractor={(item, index) => (item ? item.id.toString() : `skeleton-${index}`)}
@@ -432,6 +435,15 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
   },
+  _icon: {
+    marginHorizontal: wp("2%"),
+  },
 });
 
 export default HomeScreen;
+
+
+
+
+
+
